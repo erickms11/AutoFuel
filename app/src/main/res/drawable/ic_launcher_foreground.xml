@@ -1,0 +1,56 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:translateX="0"
+        android:translateY="0">
+        <!-- Gas station pump body -->
+        <path
+            android:fillColor="#F8FAFC"
+            android:pathData="M34,36 C34,33 36,31 39,31 L57,31 C60,31 62,33 62,36 L62,77 C62,78 61,79 60,79 L36,79 C35,79 34,78 34,77 Z" />
+        
+        <!-- Base stand -->
+        <path
+            android:fillColor="#94A3B8"
+            android:pathData="M31,79 L65,79 C66,79 67,80 67,81 L67,83 L29,83 L29,81 C29,80 30,79 31,79 Z" />
+
+        <!-- Gas pump display window -->
+        <path
+            android:fillColor="#0F172A"
+            android:pathData="M38,36 L58,36 C59,36 60,37 60,38 L60,50 C60,51 59,52 58,52 L38,52 C37,52 36,51 36,50 L36,38 C36,37 37,36 38,36 Z" />
+
+        <!-- Digital digits / km/L indicator inside display -->
+        <path
+            android:fillColor="#10B981"
+            android:pathData="M40,41 L47,41 L47,43 L40,43 Z M40,46 L51,46 L51,48 L40,48 Z" />
+        <path
+            android:fillColor="#38BDF8"
+            android:pathData="M53,41 A2,2 0 1,1 53,45 A2,2 0 1,1 53,41" />
+
+        <!-- Nozzle holster & hose -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#F59E0B"
+            android:strokeWidth="3.2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M62,68 C68,68 73,63 73,55 L73,43 C73,40 76,38 78,41 L79,44 C80,45 80,48 78,50 L75,53" />
+
+        <!-- Fuel nozzle handle -->
+        <path
+            android:fillColor="#F59E0B"
+            android:pathData="M72,36 L77,32 C78,31 80,32 80,34 L80,42 L77,41 L77,37 L73,40 Z" />
+
+        <!-- Fuel drop emblem on pump -->
+        <path
+            android:fillColor="#F59E0B"
+            android:pathData="M48,58 C48,58 42,65 42,68 C42,71.3 44.7,74 48,74 C51.3,74 54,71.3 54,68 C54,65 48,58 48,58 Z" />
+
+        <!-- Spark / efficiency star in the drop -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M48,64 L48.8,66.5 L51.2,67.3 L48.8,68.1 L48,70.5 L47.2,68.1 L44.8,67.3 L47.2,66.5 Z" />
+    </group>
+</vector>

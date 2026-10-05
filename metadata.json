@@ -1,0 +1,6 @@
+{
+  "name": "AutoFuel",
+  "description": "Gestão de combustível com cálculo de consumo médio (km/L), despesas e alertas inteligentes de manutenção preventiva para veículos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
