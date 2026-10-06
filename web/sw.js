@@ -1,5 +1,5 @@
 // AutoFuel Service Worker - Offline Cache Strategy
-const CACHE_NAME = 'autofuel-pwa-v2';
+const CACHE_NAME = 'autofuel-pwa-v4';
 
 const STATIC_ASSETS = [
   './',
