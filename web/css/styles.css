@@ -81,13 +81,17 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   font-family: var(--font-main);
-  background-color: var(--bg-primary);
+  background-color: #070B14;
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+[data-theme="light"] body {
+  background-color: #CBD5E1;
 }
 
 button, input, select, textarea {
@@ -99,16 +103,25 @@ button, input, select, textarea {
 body {
   padding-top: env(safe-area-inset-top, 0);
   padding-bottom: env(safe-area-inset-bottom, 0);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 /* ==========================================================================
-   App Shell Layout
+   App Shell Layout (100% Mobile Optimized)
    ========================================================================== */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  max-width: 480px; /* Native mobile viewport max-width */
+  margin: 0 auto;
   position: relative;
+  background-color: var(--bg-primary);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
 }
 
 /* Top App Bar */
@@ -277,23 +290,27 @@ body {
 /* Main Content Area */
 .main-content {
   flex: 1;
-  padding: 16px;
-  max-width: 1200px;
+  padding: 14px 14px;
+  max-width: 480px;
   width: 100%;
   margin: 0 auto;
-  padding-bottom: calc(var(--nav-height) + 24px); /* Clearance for bottom nav */
+  box-sizing: border-box;
+  padding-bottom: calc(var(--nav-height) + 24px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
-   Navigation (Bottom Bar for Mobile, Responsive Tablet/Desktop)
+   Navigation (Bottom Bar for Mobile)
    ========================================================================== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
   height: var(--nav-height);
-  background-color: rgba(15, 23, 42, 0.92);
+  background-color: rgba(15, 23, 42, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-subtle);
@@ -302,10 +319,11 @@ body {
   justify-content: space-around;
   z-index: 90;
   padding-bottom: env(safe-area-inset-bottom, 0);
+  box-sizing: border-box;
 }
 
 [data-theme="light"] .bottom-nav {
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(255, 255, 255, 0.94);
 }
 
 .nav-item {
@@ -352,70 +370,6 @@ body {
   border-radius: var(--radius-full);
   min-width: 16px;
   text-align: center;
-}
-
-/* Tablet & Desktop Layout */
-@media (min-width: 768px) {
-  .app-container {
-    flex-direction: row;
-  }
-
-  .top-bar {
-    left: 240px;
-    width: calc(100% - 240px);
-  }
-
-  .bottom-nav {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 240px;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 24px;
-    border-top: none;
-    border-right: 1px solid var(--border-subtle);
-    gap: 8px;
-  }
-
-  .bottom-nav::before {
-    content: "AutoFuel";
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--accent-teal);
-    margin-bottom: 24px;
-    padding-left: 20px;
-    align-self: flex-start;
-  }
-
-  .nav-item {
-    flex: 0 0 50px;
-    width: 90%;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding-left: 20px;
-    gap: 14px;
-    font-size: 0.95rem;
-    border-radius: var(--radius-md);
-  }
-
-  .nav-item.active {
-    background: rgba(45, 212, 191, 0.12);
-    border: 1px solid rgba(45, 212, 191, 0.25);
-  }
-
-  .nav-badge {
-    position: static;
-    margin-left: auto;
-    margin-right: 14px;
-  }
-
-  .main-content {
-    margin-left: 240px;
-    padding: 24px 32px;
-    padding-bottom: 40px;
-  }
 }
 
 /* ==========================================================================
@@ -627,18 +581,12 @@ body {
   color: var(--accent-teal);
 }
 
-/* Metrics Grid (2x2 on mobile, 4x1 on desktop) */
+/* Metrics Grid (2x2 Mobile) */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-@media (min-width: 900px) {
-  .metrics-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
 .metric-card {
@@ -927,7 +875,7 @@ canvas {
 }
 
 /* ==========================================================================
-   Comparator Tab Styles (Flex + Market Benchmark)
+   Comparator Tab Styles (Flex + Market Benchmark) - 100% Mobile
    ========================================================================== */
 .comparator-subnav {
   display: flex;
@@ -935,25 +883,34 @@ canvas {
   padding: 4px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  gap: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .comp-tab-btn {
   flex: 1;
   background: none;
   border: none;
-  padding: 10px;
+  padding: 10px 8px;
   border-radius: var(--radius-sm);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .comp-tab-btn.active {
   background: var(--accent-teal);
   color: #0A0F1D;
+  box-shadow: 0 2px 10px var(--accent-teal-glow);
 }
 
 /* Flex Calculator Verdict Box */
@@ -961,12 +918,14 @@ canvas {
   background: var(--bg-card);
   border: 2px solid var(--accent-teal);
   border-radius: var(--radius-lg);
-  padding: 24px 20px;
+  padding: 20px 14px;
   text-align: center;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 24px var(--accent-teal-glow);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .verdict-box.etanol {
@@ -980,18 +939,19 @@ canvas {
 }
 
 .verdict-tag {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .verdict-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
 .verdict-box.etanol .verdict-title { color: var(--accent-emerald); }
@@ -999,109 +959,284 @@ canvas {
 
 .verdict-ratio {
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
 }
 
-.verdict-savings-row {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border-subtle);
+.verdict-description {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 14px;
 }
 
-.verdict-stat-item {
+/* Mobile Verdict Savings List - Stacked vertical cards, NO horizontal overflow */
+.verdict-savings-list {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  box-sizing: border-box;
+}
+
+.verdict-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.verdict-stat-lbl {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-align: left;
+  font-weight: 500;
 }
 
 .verdict-stat-num {
   font-family: var(--font-mono);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent-amber);
+  white-space: nowrap;
+}
+
+.verdict-stat-dual {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 2px;
+}
+
+.verdict-stat-dual .dual-eth { color: var(--accent-emerald); }
+.verdict-stat-dual .dual-gas { color: var(--accent-cyan); }
+
+.btn-verdict-action {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 16px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+/* Market Benchmark Subtab */
+.mkt-params-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.baseline-mobile-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.baseline-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.baseline-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  letter-spacing: 0.5px;
+}
+
+.baseline-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 2px 0;
+}
+
+.baseline-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.baseline-cost-badge {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.baseline-cost-val {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--accent-amber);
 }
 
-.verdict-stat-lbl {
+.baseline-cost-annual {
   font-size: 0.75rem;
   color: var(--text-muted);
 }
 
-/* Market Benchmarks List */
-.market-cards-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+/* Category Filter Chips - Wrapped, no horizontal scroll needed */
+.mkt-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-@media (min-width: 800px) {
-  .market-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.mkt-filter-btn {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.mkt-filter-btn.active {
+  background: var(--accent-teal);
+  color: #0A0F1D;
+  border-color: var(--accent-teal);
+  font-weight: 700;
+}
+
+/* Market Benchmarks List */
+.market-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .market-car-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.market-car-card:hover {
-  border-color: rgba(45, 212, 191, 0.35);
-  transform: translateY(-2px);
+.market-car-card:active {
+  border-color: var(--accent-teal);
 }
 
 .car-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 8px;
 }
 
 .car-name {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .car-badge {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background: rgba(45, 212, 191, 0.15);
   color: var(--accent-teal);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.car-metrics-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  box-sizing: border-box;
+}
+
+.car-metric-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.car-metric-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
 .car-efficiency {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--accent-teal);
+}
+
+.car-cost-km {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .car-savings-banner {
   background: rgba(16, 185, 129, 0.12);
   border: 1px solid rgba(16, 185, 129, 0.25);
   border-radius: var(--radius-sm);
-  padding: 8px 12px;
+  padding: 8px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
+  gap: 6px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 .car-savings-val {
   font-family: var(--font-mono);
   font-weight: 800;
+  font-size: 0.92rem;
   color: var(--accent-emerald);
+  white-space: nowrap;
 }
 
 /* ==========================================================================
@@ -1317,15 +1452,7 @@ canvas {
   transform: translateY(0);
 }
 
-/* ==========================================================================
-   Responsive Labels for Subtabs
-   ========================================================================== */
-.label-short {
-  display: none;
-}
-.label-full {
-  display: inline;
-}
+
 
 /* ==========================================================================
    Comprehensive Mobile Optimizations (< 600px)
@@ -1540,110 +1667,7 @@ canvas {
     font-size: 0.88rem;
   }
 
-  /* Comparator Subnav & Labels */
-  .comparator-subnav {
-    margin-bottom: 14px;
-  }
 
-  .comp-tab-btn {
-    padding: 8px 4px;
-    font-size: 0.8rem;
-  }
-
-  .label-short {
-    display: inline;
-  }
-
-  .label-full {
-    display: none;
-  }
-
-  /* Flex Verdict Card on Mobile */
-  .verdict-box {
-    padding: 16px 12px;
-    margin-bottom: 14px;
-  }
-
-  .verdict-title {
-    font-size: 1.35rem;
-    margin-bottom: 6px;
-  }
-
-  .verdict-ratio {
-    font-size: 0.95rem;
-    margin-bottom: 8px;
-  }
-
-  .verdict-savings-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-top: 12px;
-    padding-top: 10px;
-  }
-
-  .verdict-stat-item {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: var(--radius-sm);
-    padding: 8px 12px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .verdict-stat-num {
-    font-size: 1.1rem;
-    order: 2;
-  }
-
-  .verdict-stat-lbl {
-    font-size: 0.75rem;
-    order: 1;
-  }
-
-  /* Maintenance Cards */
-  .maint-card {
-    padding: 12px 10px;
-  }
-
-  .maint-top-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .maint-title {
-    font-size: 0.95rem;
-  }
-
-  .maint-footer-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .maint-footer-row > div {
-    width: 100%;
-    display: flex;
-    gap: 6px;
-  }
-
-  .maint-footer-row .btn-small {
-    flex: 1;
-    text-align: center;
-  }
-
-  /* Market Benchmark Cards */
-  .market-car-card {
-    padding: 12px 10px;
-  }
-
-  .car-savings-banner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
 
   /* Modais / Bottom Sheets */
   .modal-content {

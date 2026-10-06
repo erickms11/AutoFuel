@@ -293,7 +293,7 @@ export function computeMarketComparison(cars, userAverageKmL, gasPrice = 5.99, k
       annualCost,
       annualSavings,
       efficiencyLabel: car.powertrain === VehiclePowertrain.ELECTRIC
-        ? `${car.efficiencyKmPerKwh.toFixed(1)} km/kWh (~${(100 / car.efficiencyKmPerKwh).toFixed(1)} kWh/100km)`
+        ? `${car.efficiencyKmPerKwh.toFixed(1)} km/kWh`
         : `${car.efficiencyKmL.toFixed(1)} km/L`
     };
   });
