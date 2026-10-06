@@ -155,27 +155,28 @@ body {
 .top-bar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* Active Vehicle Chip */
 .vehicle-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(45, 212, 191, 0.12);
   border: 1px solid rgba(45, 212, 191, 0.3);
   color: var(--accent-teal);
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  max-width: 170px;
+  max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex-shrink: 1;
 }
 
 .vehicle-chip:hover {
@@ -192,8 +193,9 @@ body {
   background: transparent;
   border: 1px solid var(--border-subtle);
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,15 +214,16 @@ body {
 .btn-pwa-install {
   display: none;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
   color: #0A0F1D;
   border: none;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
+  flex-shrink: 0;
   box-shadow: 0 2px 10px var(--accent-teal-glow);
   animation: pulse-glow 2s infinite ease-in-out;
 }
@@ -230,13 +233,24 @@ body {
   50% { box-shadow: 0 0 16px var(--accent-teal-glow); }
 }
 
-/* Status Badge */
+/* Status Badge with pulse dot */
 .status-badge {
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .status-badge.online {
@@ -245,10 +259,19 @@ body {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+.status-badge.online .status-dot {
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 6px var(--accent-emerald);
+}
+
 .status-badge.offline {
   background: rgba(239, 68, 68, 0.15);
   color: var(--accent-rose);
   border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-badge.offline .status-dot {
+  background-color: var(--accent-rose);
 }
 
 /* Main Content Area */
@@ -1292,4 +1315,375 @@ canvas {
 .toast-card.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ==========================================================================
+   Responsive Labels for Subtabs
+   ========================================================================== */
+.label-short {
+  display: none;
+}
+.label-full {
+  display: inline;
+}
+
+/* ==========================================================================
+   Comprehensive Mobile Optimizations (< 600px)
+   ========================================================================== */
+@media (max-width: 600px) {
+  :root {
+    --nav-height: 58px;
+    --topbar-height: 56px;
+  }
+
+  /* Top Bar & Header */
+  .top-bar {
+    padding: 0 10px;
+  }
+
+  .brand-section {
+    gap: 6px;
+  }
+
+  .brand-logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
+  .top-bar-actions {
+    gap: 4px;
+  }
+
+  /* Vehicle Chip Compact */
+  .vehicle-chip {
+    max-width: 105px;
+    font-size: 0.74rem;
+    padding: 4px 7px;
+    gap: 3px;
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Status Badge: dot only on mobile to save space */
+  .status-badge {
+    padding: 6px;
+    border-radius: 50%;
+  }
+
+  .status-badge .status-text {
+    display: none;
+  }
+
+  .status-badge .status-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Main Content Area */
+  .main-content {
+    padding: 10px 8px;
+    padding-bottom: calc(var(--nav-height) + 20px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Hero Vehicle Card */
+  .hero-vehicle-card {
+    padding: 14px 12px;
+    margin-bottom: 10px;
+  }
+
+  .vehicle-header-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .vehicle-title-group h2 {
+    font-size: 1.15rem;
+  }
+
+  .vehicle-subtext {
+    font-size: 0.78rem;
+  }
+
+  .plate-badge {
+    font-size: 0.75rem;
+    padding: 2px 7px;
+  }
+
+  .odometer-container {
+    padding: 10px 12px;
+  }
+
+  .odometer-label {
+    font-size: 0.72rem;
+  }
+
+  .odometer-value {
+    font-size: 1.25rem;
+  }
+
+  /* Action Buttons Row */
+  .action-grid-buttons {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 11px 6px;
+    font-size: 0.82rem;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .btn-primary svg, .btn-secondary svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Metrics Grid (2x2) */
+  .metrics-grid {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .metric-card {
+    padding: 10px 8px;
+    gap: 4px;
+  }
+
+  .metric-icon-wrap {
+    width: 28px;
+    height: 28px;
+  }
+
+  .metric-icon-wrap svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .metric-label {
+    font-size: 0.7rem;
+  }
+
+  .metric-value {
+    font-size: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .metric-unit {
+    font-size: 0.72rem;
+  }
+
+  .metric-footnote {
+    font-size: 0.65rem;
+  }
+
+  /* Alert Banner */
+  .alert-banner {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .alert-banner-title {
+    font-size: 0.85rem;
+  }
+
+  .alert-banner-subtitle {
+    font-size: 0.75rem;
+  }
+
+  /* Consumption Chart */
+  .chart-card {
+    padding: 14px 10px;
+    margin-bottom: 14px;
+  }
+
+  .chart-container {
+    height: 180px;
+  }
+
+  /* Refill Cards in History */
+  .refill-item-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 10px;
+    gap: 8px;
+  }
+
+  .refill-item-left {
+    width: 100%;
+  }
+
+  .refill-item-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 8px;
+    text-align: left;
+  }
+
+  .refill-price {
+    font-size: 1.05rem;
+  }
+
+  .refill-station-name {
+    font-size: 0.88rem;
+  }
+
+  /* Comparator Subnav & Labels */
+  .comparator-subnav {
+    margin-bottom: 14px;
+  }
+
+  .comp-tab-btn {
+    padding: 8px 4px;
+    font-size: 0.8rem;
+  }
+
+  .label-short {
+    display: inline;
+  }
+
+  .label-full {
+    display: none;
+  }
+
+  /* Flex Verdict Card on Mobile */
+  .verdict-box {
+    padding: 16px 12px;
+    margin-bottom: 14px;
+  }
+
+  .verdict-title {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+
+  .verdict-ratio {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .verdict-savings-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+
+  .verdict-stat-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .verdict-stat-num {
+    font-size: 1.1rem;
+    order: 2;
+  }
+
+  .verdict-stat-lbl {
+    font-size: 0.75rem;
+    order: 1;
+  }
+
+  /* Maintenance Cards */
+  .maint-card {
+    padding: 12px 10px;
+  }
+
+  .maint-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .maint-title {
+    font-size: 0.95rem;
+  }
+
+  .maint-footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .maint-footer-row > div {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+  }
+
+  .maint-footer-row .btn-small {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Market Benchmark Cards */
+  .market-car-card {
+    padding: 12px 10px;
+  }
+
+  .car-savings-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* Modais / Bottom Sheets */
+  .modal-content {
+    padding: 18px 12px;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+  }
+
+  .form-row {
+    gap: 8px;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    padding: 10px 10px;
+    font-size: 0.92rem;
+  }
+
+  /* Bottom Navigation Bar */
+  .bottom-nav {
+    height: var(--nav-height);
+  }
+
+  .nav-item {
+    font-size: 0.68rem;
+    gap: 2px;
+    padding: 4px 0;
+  }
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-badge {
+    top: 3px;
+    right: calc(50% - 15px);
+    font-size: 0.6rem;
+    min-width: 14px;
+    padding: 1px 4px;
+  }
 }

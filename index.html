@@ -47,8 +47,11 @@
           <span>Instalar</span>
         </button>
 
-        <!-- Online/Offline Badge -->
-        <span class="status-badge online" id="connection-status-badge">Online</span>
+        <!-- Online/Offline Indicator (dot on mobile, badge on desktop) -->
+        <span class="status-badge online" id="connection-status-badge" title="Status da Conexão">
+          <span class="status-dot"></span>
+          <span class="status-text">Online</span>
+        </span>
 
         <!-- Theme Toggle -->
         <button class="btn-icon" id="btn-toggle-theme" title="Alternar tema claro/escuro" aria-label="Alternar Tema">
@@ -250,8 +253,14 @@
            ==================================================================== -->
       <section class="tab-content" id="tab-comparator">
         <div class="comparator-subnav">
-          <button class="comp-tab-btn active" data-subtab="flex">Calculadora Flex (Álcool x Gasolina)</button>
-          <button class="comp-tab-btn" data-subtab="market">Comparador de Mercado (Elétricos/Híbridos)</button>
+          <button class="comp-tab-btn active" data-subtab="flex">
+            <span class="label-full">Calculadora Flex (Álcool x Gasolina)</span>
+            <span class="label-short">Calculadora Flex</span>
+          </button>
+          <button class="comp-tab-btn" data-subtab="market">
+            <span class="label-full">Comparador de Mercado (Elétricos/Híbridos)</span>
+            <span class="label-short">Mercado & EVs</span>
+          </button>
         </div>
 
         <!-- Subtab 1: Flex Calculator -->
