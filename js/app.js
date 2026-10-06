@@ -594,6 +594,8 @@ function renderFlexVerdict() {
   if (!result) return;
 
   const verdictClass = result.isEthanolBetter ? 'etanol' : 'gasolina';
+  const winnerFuelName = result.winnerFuel === 'ETANOL' ? 'Etanol' : 'Gasolina Comum';
+  const winnerPrice = result.winnerFuel === 'ETANOL' ? ethPrice : gasPrice;
 
   verdictContainer.innerHTML = `
     <div class="verdict-box ${verdictClass}">
@@ -601,30 +603,70 @@ function renderFlexVerdict() {
       <div class="verdict-title">ABASTEÇA COM ${result.winnerFuel}</div>
       <div class="verdict-ratio">
         Relação: <strong>${result.priceRatioPercent.toFixed(1)}%</strong>
-        (Ponto de Equilíbrio: ${result.breakEvenPercent.toFixed(1)}%)
+        (Equilíbrio: ${result.breakEvenPercent.toFixed(1)}%)
       </div>
-      <div style="font-size: 0.85rem; color: var(--text-secondary); max-width: 480px; margin: 0 auto;">
+      <div class="verdict-description">
         ${result.hasVehicleData
-          ? `Cálculo baseado no <strong>consumo real medido do seu carro</strong> (${stats.gasolineAvgKmPerL?.toFixed(1)} km/L Gasolina vs ${stats.ethanolAvgKmPerL?.toFixed(1)} km/L Etanol).`
-          : 'Cálculo baseado na regra padrão de paridade de 70%.'}
+          ? `Cálculo com <strong>consumo real medido</strong> (${stats.gasolineAvgKmPerL?.toFixed(1)} km/L Gas vs ${stats.ethanolAvgKmPerL?.toFixed(1)} km/L Etanol).`
+          : 'Cálculo com a regra padrão de paridade de 70%.'}
       </div>
 
-      <div class="verdict-savings-row">
-        <div class="verdict-stat-item">
-          <span class="verdict-stat-num">${brCurrency.format(result.tankSavings)}</span>
+      <div class="verdict-savings-list">
+        <div class="verdict-stat-row">
           <span class="verdict-stat-lbl">Economia por Tanque Cheio</span>
+          <span class="verdict-stat-num">${brCurrency.format(result.tankSavings)}</span>
         </div>
-        <div class="verdict-stat-item">
-          <span class="verdict-stat-num">${brCurrency.format(result.savingsPer1000Km)}</span>
+        <div class="verdict-stat-row">
           <span class="verdict-stat-lbl">Economia a cada 1.000 km</span>
+          <span class="verdict-stat-num">${brCurrency.format(result.savingsPer1000Km)}</span>
         </div>
-        <div class="verdict-stat-item">
-          <span class="verdict-stat-num" style="color: var(--accent-teal);">${brCurrency.format(result.costPerKmEth)} / ${brCurrency.format(result.costPerKmGas)}</span>
-          <span class="verdict-stat-lbl">R$/km (Etanol vs Gas)</span>
+        <div class="verdict-stat-row">
+          <span class="verdict-stat-lbl">Custo por km rodado</span>
+          <div class="verdict-stat-dual">
+            <span class="dual-eth">Etanol: ${brCurrency.format(result.costPerKmEth)}/km</span>
+            <span class="dual-gas">Gasolina: ${brCurrency.format(result.costPerKmGas)}/km</span>
+          </div>
         </div>
       </div>
+
+      <button type="button" class="btn-primary btn-verdict-action" id="btn-verdict-apply" data-fuel="${winnerFuelName}" data-price="${winnerPrice}">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33a2.5 2.5 0 002.5 2.5c.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+        Abastecer com ${winnerFuelName}
+      </button>
     </div>
   `;
+
+  const btnApply = document.getElementById('btn-verdict-apply');
+  if (btnApply) {
+    btnApply.addEventListener('click', () => {
+      openAddFuelModalWithPrefill(winnerFuelName, winnerPrice);
+    });
+  }
+}
+
+function openAddFuelModalWithPrefill(fuelType, price) {
+  const vehicle = Storage.getActiveVehicle();
+  if (!vehicle) return;
+
+  document.getElementById('fuel-input-odometer').value = vehicle.currentOdometerKm || '';
+  document.getElementById('fuel-input-liters').value = '';
+  document.getElementById('fuel-input-price-per-l').value = price ? Number(price).toFixed(2) : '';
+  document.getElementById('fuel-input-total-cost').value = '';
+  document.getElementById('fuel-input-station').value = '';
+  document.getElementById('fuel-input-notes').value = '';
+  document.getElementById('fuel-checkbox-fulltank').checked = true;
+
+  const selectType = document.getElementById('fuel-select-type');
+  if (selectType) {
+    selectType.value = fuelType;
+  }
+
+  openModal('modal-add-fuel');
+  setTimeout(() => {
+    document.getElementById('fuel-input-liters')?.focus();
+  }, 150);
 }
 
 function renderMarketComparisonList() {
@@ -663,15 +705,17 @@ function renderMarketComparisonList() {
   const baselineBox = document.getElementById('mkt-user-baseline');
   if (baselineBox) {
     baselineBox.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 10px;">
-        <div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Seu Veículo Atual</div>
-          <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">${vehicle?.name || 'Seu Carro'}</div>
-          <div style="font-size: 0.85rem; color: var(--text-secondary);">Média: <strong>${comparison.userKmL.toFixed(1)} km/L</strong> • Rodando ${monthlyKm.toLocaleString('pt-BR')} km/mês</div>
-        </div>
-        <div style="text-align: right;">
-          <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: var(--accent-amber);">${brCurrency.format(comparison.userCostPerKm)}/km</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Gasto Anual: <strong>${brCurrency.format(comparison.userAnnualCost)}</strong></div>
+      <div class="baseline-mobile-card">
+        <div class="baseline-header-row">
+          <div>
+            <span class="baseline-tag">Seu Veículo Atual</span>
+            <div class="baseline-title">${vehicle?.name || 'Seu Carro'}</div>
+            <div class="baseline-meta">Média: <strong>${comparison.userKmL.toFixed(1)} km/L</strong> • ${monthlyKm.toLocaleString('pt-BR')} km/mês</div>
+          </div>
+          <div class="baseline-cost-badge">
+            <div class="baseline-cost-val">${brCurrency.format(comparison.userCostPerKm)}/km</div>
+            <div class="baseline-cost-annual">Gasto Anual: ${brCurrency.format(comparison.userAnnualCost)}</div>
+          </div>
         </div>
       </div>
     `;
@@ -695,18 +739,18 @@ function renderMarketComparisonList() {
           ${car.description}
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
-          <div>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Eficiência:</span>
-            <span class="car-efficiency" style="margin-left: 4px;">${car.efficiencyLabel}</span>
+        <div class="car-metrics-row">
+          <div class="car-metric-box">
+            <span class="car-metric-label">Eficiência</span>
+            <span class="car-efficiency">${car.efficiencyLabel}</span>
           </div>
-          <div>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Custo/km:</span>
-            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-teal); margin-left: 4px;">${brCurrency.format(car.costPerKm)}</span>
+          <div class="car-metric-box">
+            <span class="car-metric-label">Custo/km</span>
+            <span class="car-cost-km">${brCurrency.format(car.costPerKm)}</span>
           </div>
         </div>
 
-        <div class="car-savings-banner" style="margin-top: 6px;">
+        <div class="car-savings-banner">
           <span>Economia Anual Estimada:</span>
           <span class="car-savings-val" style="color: ${savingsColor};">
             ${isSave ? '+' : ''}${brCurrency.format(car.annualSavings)}/ano

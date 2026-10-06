@@ -254,26 +254,24 @@
       <section class="tab-content" id="tab-comparator">
         <div class="comparator-subnav">
           <button class="comp-tab-btn active" data-subtab="flex">
-            <span class="label-full">Calculadora Flex (Álcool x Gasolina)</span>
-            <span class="label-short">Calculadora Flex</span>
+            ⛽ Calculadora Flex
           </button>
           <button class="comp-tab-btn" data-subtab="market">
-            <span class="label-full">Comparador de Mercado (Elétricos/Híbridos)</span>
-            <span class="label-short">Mercado & EVs</span>
+            ⚡ Mercado & EVs
           </button>
         </div>
 
         <!-- Subtab 1: Flex Calculator -->
         <div class="comp-subtab-content active" id="comp-subtab-flex">
-          <div class="card" style="margin-bottom: 20px;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 14px;">Preços nos Postos</h3>
+          <div class="card" style="margin-bottom: 16px;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;">Preços no Posto (R$/L)</h3>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label" for="flex-input-gas-price">Gasolina (R$/L)</label>
+                <label class="form-label" for="flex-input-gas-price">Gasolina (R$)</label>
                 <input type="number" step="0.01" class="form-input" id="flex-input-gas-price" value="5.89" placeholder="Ex: 5.89">
               </div>
               <div class="form-group">
-                <label class="form-label" for="flex-input-eth-price">Etanol (R$/L)</label>
+                <label class="form-label" for="flex-input-eth-price">Etanol (R$)</label>
                 <input type="number" step="0.01" class="form-input" id="flex-input-eth-price" value="3.89" placeholder="Ex: 3.89">
               </div>
             </div>
@@ -285,8 +283,8 @@
         <!-- Subtab 2: Market Benchmark -->
         <div class="comp-subtab-content" id="comp-subtab-market" style="display: none;">
           <div class="card" style="margin-bottom: 16px;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 14px;">Parâmetros de Simulação</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;">Parâmetros de Simulação</h3>
+            <div class="mkt-params-grid">
               <div class="form-group">
                 <label class="form-label" for="mkt-input-gas-price">Gasolina (R$/L)</label>
                 <input type="number" step="0.01" class="form-input" id="mkt-input-gas-price" value="5.99">
@@ -295,8 +293,8 @@
                 <label class="form-label" for="mkt-input-kwh-price">Energia (R$/kWh)</label>
                 <input type="number" step="0.01" class="form-input" id="mkt-input-kwh-price" value="0.85">
               </div>
-              <div class="form-group">
-                <label class="form-label" for="mkt-input-monthly-km">Km por Mês</label>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label class="form-label" for="mkt-input-monthly-km">Km Rodados por Mês</label>
                 <input type="number" step="50" class="form-input" id="mkt-input-monthly-km" value="1200">
               </div>
             </div>
@@ -305,12 +303,12 @@
           <!-- User Baseline Summary -->
           <div class="card" id="mkt-user-baseline" style="margin-bottom: 16px; border: 1px solid var(--accent-teal);"></div>
 
-          <!-- Filter buttons -->
-          <div style="display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px;">
+          <!-- Filter buttons: wrapped chips, never scroll horizontally -->
+          <div class="mkt-filter-chips">
             <button class="btn-small btn-secondary mkt-filter-btn active" data-filter="ALL">Todos</button>
-            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="ELECTRIC">100% Elétricos</button>
-            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="HYBRID">Híbridos</button>
-            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="COMBUSTION">Combustão</button>
+            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="ELECTRIC">⚡ Elétricos</button>
+            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="HYBRID">🔋 Híbridos</button>
+            <button class="btn-small btn-secondary mkt-filter-btn" data-filter="COMBUSTION">⛽ Combustão</button>
           </div>
 
           <!-- Cars Grid -->
