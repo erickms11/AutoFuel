@@ -1,0 +1,10 @@
+{
+  "name": "autofuel-pwa",
+  "version": "1.0.0",
+  "description": "AutoFuel - Progressive Web App para controle de abastecimento, consumo e manutenção veicular.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
