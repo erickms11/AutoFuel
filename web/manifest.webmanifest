@@ -1,0 +1,33 @@
+{
+  "name": "AutoFuel - Gestão e Consumo",
+  "short_name": "AutoFuel",
+  "description": "Controle inteligente de abastecimento, consumo médio (km/L), manutenções preventivas e comparador flex & mercado.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0A0F1D",
+  "theme_color": "#0F172A",
+  "orientation": "any",
+  "lang": "pt-BR",
+  "categories": ["utilities", "productivity", "auto"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
