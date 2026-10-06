@@ -112,11 +112,13 @@ function updateConnectionStatus(isOnline) {
   const badge = document.getElementById('connection-status-badge');
   if (badge) {
     if (isOnline) {
-      badge.textContent = 'Online';
+      badge.style.display = 'none';
       badge.className = 'status-badge online';
+      badge.innerHTML = '<span class="status-dot"></span><span class="status-text">Online</span>';
     } else {
-      badge.textContent = 'Offline';
+      badge.style.display = 'inline-flex';
       badge.className = 'status-badge offline';
+      badge.innerHTML = '<span class="status-dot"></span><span class="status-text">Offline</span>';
     }
   }
 }

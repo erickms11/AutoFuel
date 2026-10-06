@@ -86,6 +86,18 @@ function setupNavigation() {
     });
   }
 
+  // Modal theme toggle (dentro de configurações)
+  const modalThemeBtn = document.getElementById('modal-btn-toggle-theme');
+  if (modalThemeBtn) {
+    modalThemeBtn.addEventListener('click', () => {
+      const current = Storage.getTheme();
+      const next = current === 'dark' ? 'light' : 'dark';
+      Storage.setTheme(next);
+      updateThemeIcon(next);
+      if (activeTab === 'dashboard') renderDashboard();
+    });
+  }
+
   // Active Vehicle chip click -> Open vehicle manager modal
   const vehicleChip = document.getElementById('vehicle-chip-btn');
   if (vehicleChip) {
@@ -118,12 +130,6 @@ export function switchTab(tabName, subTab = null) {
 
   if (subTab && tabName === 'comparator') {
     activeComparatorSubTab = subTab;
-    document.querySelectorAll('.comp-tab-btn').forEach(b => {
-      b.classList.toggle('active', b.getAttribute('data-subtab') === subTab);
-    });
-    document.querySelectorAll('.comp-subtab-content').forEach(c => {
-      c.classList.toggle('active', c.id === `comp-subtab-${subTab}`);
-    });
   }
 
   renderCurrentTab();
@@ -132,10 +138,16 @@ export function switchTab(tabName, subTab = null) {
 
 function updateThemeIcon(theme) {
   const themeBtn = document.getElementById('btn-toggle-theme');
-  if (!themeBtn) return;
-  themeBtn.innerHTML = theme === 'dark'
-    ? `<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.69a.75.75 0 00.86-.83A6.75 6.75 0 0118.14 8.45a.75.75 0 00.83-.86A9.004 9.004 0 0012 3z"/></svg>`
-    : `<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm10.742-5.492a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 11-1.06-1.061l1.59-1.591a.75.75 0 011.061 0zm-12.484 0a.75.75 0 011.06 0l1.592 1.59a.75.75 0 11-1.06 1.061L5.758 7.569a.75.75 0 010-1.061zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zm6.818 2.068a.75.75 0 01-1.06 0l-1.592-1.591a.75.75 0 111.061-1.06l1.591 1.59a.75.75 0 010 1.061zM6.818 19.758a.75.75 0 010-1.06l1.591-1.592a.75.75 0 111.06 1.06l-1.59 1.592a.75.75 0 01-1.061 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm15 0a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H18.75A.75.75 0 0118 12z"/></svg>`;
+  if (themeBtn) {
+    themeBtn.innerHTML = theme === 'dark'
+      ? `<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.69a.75.75 0 00.86-.83A6.75 6.75 0 0118.14 8.45a.75.75 0 00.83-.86A9.004 9.004 0 0012 3z"/></svg>`
+      : `<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm10.742-5.492a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 11-1.06-1.061l1.59-1.591a.75.75 0 011.061 0zm-12.484 0a.75.75 0 011.06 0l1.592 1.59a.75.75 0 11-1.06 1.061L5.758 7.569a.75.75 0 010-1.061zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zm6.818 2.068a.75.75 0 01-1.06 0l-1.592-1.591a.75.75 0 111.061-1.06l1.591 1.59a.75.75 0 010 1.061zM6.818 19.758a.75.75 0 010-1.06l1.591-1.592a.75.75 0 111.06 1.06l-1.59 1.592a.75.75 0 01-1.061 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm15 0a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H18.75A.75.75 0 0118 12z"/></svg>`;
+  }
+
+  const modalThemeText = document.getElementById('modal-theme-text');
+  if (modalThemeText) {
+    modalThemeText.textContent = theme === 'dark' ? 'Mudar p/ Claro' : 'Mudar p/ Escuro';
+  }
 }
 
 function updateVehicleSelector() {
@@ -515,10 +527,6 @@ function setupComparatorInputs() {
     btn.addEventListener('click', () => {
       const target = btn.getAttribute('data-subtab');
       activeComparatorSubTab = target;
-      document.querySelectorAll('.comp-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.querySelectorAll('.comp-subtab-content').forEach(c => {
-        c.classList.toggle('active', c.id === `comp-subtab-${target}`);
-      });
       renderComparator();
     });
   });
@@ -555,6 +563,15 @@ function setupComparatorInputs() {
 }
 
 function renderComparator() {
+  document.querySelectorAll('.comp-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-subtab') === activeComparatorSubTab);
+  });
+  document.querySelectorAll('.comp-subtab-content').forEach(c => {
+    const isTarget = c.id === `comp-subtab-${activeComparatorSubTab}`;
+    c.classList.toggle('active', isTarget);
+    c.style.display = isTarget ? 'block' : 'none';
+  });
+
   if (activeComparatorSubTab === 'flex') {
     renderFlexVerdict();
   } else {
